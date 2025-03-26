@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Attempt</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='user_quiz.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Quiz Attempt</h1>
+        <form id="quizForm" method="POST" action="{{ url_for('user.quiz_attempt', quiz_id=quiz_id) }}">
+            
+            <!-- Scrollable Question Section -->
+            <div class="question-wrapper">
+                {% for question in questions %}
+                <div class="question-box">
+                    <h3>{{ question[2] }}</h3> <!-- Question Text -->
+                    <label>
+                        <input type="radio" name="question_{{ question[0] }}" value="{{ question[3] }}" required>
+                        {{ question[3] }}
+                    </label><br>
+                    <label>
+                        <input type="radio" name="question_{{ question[0] }}" value="{{ question[4] }}">
+                        {{ question[4] }}
+                    </label><br>
+                    <label>
+                        <input type="radio" name="question_{{ question[0] }}" value="{{ question[5] }}">
+                        {{ question[5] }}
+                    </label><br>
+                    <label>
+                        <input type="radio" name="question_{{ question[0] }}" value="{{ question[6] }}">
+                        {{ question[6] }}
+                    </label>
+                </div>
+                {% endfor %}
+            </div>
+    
+            <!-- Fixed Submit Button -->
+            <div class="button-container">
+                <button type="submit">Submit Quiz</button>
+            </div>
+    
+        </form>
+    </div>
+    
+</body>
+
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='user_quiz.css') }}">
+    <style>
+        .correct { color: green; }
+        .incorrect { color: red; }
+    </style>
+</head>
+<body>
+    <h1>Quiz Results</h1>
+    <h2>Your Score: {{ score }}/{{ total }}</h2>
+
+    <div class="container">
+        {% for f in feedback %}
+        <div class="question-box">
+            <h3>{{ f.question }}</h3>
+            <p>Your Answer: <span class="{{ 'correct' if f.is_correct else 'incorrect' }}">{{ f.selected }}</span></p>
+            {% if not f.is_correct %}
+            <p>Correct Answer: <span class="correct">{{ f.correct }}</span></p>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+
+    <a href="{{ url_for('user.user_dashboard') }}">Go to Dashboard</a>
+</body>
+</html>

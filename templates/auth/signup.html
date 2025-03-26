@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+</head>
+
+<body>
+    <div class="form-container">
+        <h1>Sign Up for Quiz Master</h1>
+        <form method="POST" action="{{ url_for('auth.signup') }}">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required> <!-- Ensure name="username" -->
+            <br><br>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required> <!-- Ensure name="password" -->
+            <br><br>
+
+            <label for="full_name">Full Name:</label>
+            <input type="text" id="full_name" name="full_name" required> <!-- Ensure name="full_name" -->
+            <br><br>
+
+            <label for="qualification">Qualification:</label>
+            <input type="text" id="qualification" name="qualification" required> <!-- Ensure name="qualification" -->
+            <br><br>
+
+            <label for="dob">Date of Birth:</label>
+            <input type="date" id="dob" name="dob" required> <!-- Ensure name="dob" -->
+            <br><br>
+
+            <button type="submit">Sign Up</button>
+        </form>
+        <p>Already have an account? <a href="{{ url_for('auth.login') }}">Login</a></p>
+    </div>
+</body>
+
+</html>

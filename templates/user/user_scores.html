@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Scores</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='user_home.css') }}">
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-left">
+            
+            <a href="{{ url_for('user.user_dashboard') }}"><button class="nav-button">Dashboard</button></a>
+            <a href="{{ url_for('user.user_scores') }}"><button class="nav-button">Scores</button></a>
+            <a href="{{ url_for('user.user_summary') }}"><button class="nav-button">Summary</button></a>
+            <a href="{{ url_for('auth.logout') }}"><button class="nav-button">Logout</button></a>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <h2>Your Scores</h2>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Quiz Name</th>
+                    <th>Score</th>
+                    <th>Attempted On</th>  <!-- ✅ Added Timestamp Column -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for score in scores %}
+                <tr>
+                    <td>{{ score[1] }}</td>  <!-- Quiz Name -->
+                    <td>{{ score[2] }}</td>  <!-- Score -->
+                    <td>{{ score[3] }}</td>  <!-- Timestamp -->
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="3">No scores available.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

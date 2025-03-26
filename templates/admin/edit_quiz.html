@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+</head>
+<body>
+    <div class="form-container">
+        <form method="POST">
+            <label for="quiz_name">Quiz Name:</label>
+            <input type="text" id="quiz_name" name="quiz_name" value="{{ quiz[1] }}" required>
+        
+            <label for="date_of_quiz">Date:</label>
+            <input type="date" id="date_of_quiz" name="date_of_quiz" value="{{ quiz[3] }}">
+        
+            <label for="duration">Duration (HH:MM):</label>
+            <input type="text" id="duration" name="duration" value="{{ quiz[4] }}" required>
+        
+            <button type="submit">Update Quiz</button>
+        </form>
+
+
+    </div>
+    
+    
+</body>
+</html>

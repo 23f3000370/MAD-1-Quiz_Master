@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Question</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+</head>
+
+<body>
+    <nav class="nav">
+        <div class="nav-left">
+            <a href="{{ url_for('admin.admin_dashboard') }}"><button class="nav-button"><i
+                        class="fas fa-home fa-2x"></i></button></a>
+            <a href="{{ url_for('admin.view_quiz') }}"><button class="nav-button"><i
+                        class="fas fa-list fa-2x"></i></button></a>
+            <a href="{{ url_for('admin.add_subject') }}"><button class="nav-button"><i
+                        class="fas fa-book fa-2x"></i></button></a>
+            <a href="{{ url_for('admin.add_chapter') }}"><button class="nav-button"><i
+                        class="fas fa-file-alt fa-2x"></i></button></a>
+            <a href="{{ url_for('admin.add_quiz') }}"><button class="nav-button"><i
+                        class="fas fa-tasks fa-2x"></i></button></a>
+            <a href="{{ url_for('admin.add_question') }}"><button class="nav-button"><i
+                        class="fas fa-question-circle fa-2x"></i></button></a>
+            <a href="{{ url_for('admin.admin_summary') }}"><button class="nav-button"><i
+                        class="fas fa-chart-bar fa-2x"></i></button></a>
+            <a href="{{ url_for('auth.logout') }}"><button class="nav-button"><i
+                        class="fas fa-sign-out-alt fa-2x"></i>logout</button></a>
+
+        </div>
+    </nav>
+
+    <nav class="nav2">
+        <div class="nav-right">
+            <form method="GET" action="{{ url_for('admin.search_admin') }}">
+                <input type="text" name="query" class="search-bar" placeholder="Search...">
+                <button type="submit" class="search-button">Search</button>
+            </form>
+
+            <br><br>
+            <img src="{{ url_for('static', filename='ayush.jpeg') }}" alt="Admin Profile" class="profile">
+            <h1>Hi Admin!</h1>
+            <h2>Resume your work</h2>
+            <button class="options">
+                <h3>Programming in Java</h3>
+            </button>
+            <button class="options">
+                <h3>Computer Networks</h3>
+            </button>
+        </div>
+    </nav>
+
+    <div class="form-container">
+        <h1>Add Question</h1>
+        <form method="POST" action="{{ url_for('admin.add_question') }}">
+            <label for="question_title">Question Title:</label>
+            <input type="text" id="question_title" name="question_title" required>
+            <br><br>
+            <label for="question">Question:</label>
+            <input type="text" id="question" name="question" required>
+            <br><br>
+            <label for="option1">Option 1:</label>
+            <input type="text" id="option1" name="option1" required>
+            <br><br>
+            <label for="option2">Option 2:</label>
+            <input type="text" id="option2" name="option2" required>
+            <br><br>
+            <label for="option3">Option 3:</label>
+            <input type="text" id="option3" name="option3" required>
+            <br><br>
+            <label for="option4">Option 4:</label>
+            <input type="text" id="option4" name="option4" required>
+            <br><br>
+            <label for="answer">Correct Answer:</label>
+            <input type="text" id="answer" name="answer" required>
+            <br><br>
+            <label for="quiz_id">Quiz ID:</label>
+            <input type="number" id="quiz_id" name="quiz_id" required>
+            <br><br>
+            <button type="submit">Add Question</button>
+        </form>
+    </div>
+</body>
+
+</html>

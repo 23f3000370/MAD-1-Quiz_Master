@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Quiz Master Admin Mode</title>
+    <style>
+        /* Body Styles */
+        body {
+            background-image: url('static/4.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+            flex-direction: row-reverse;
+        }
+
+        /* Default Light Mode Styles */
+        body {
+            background-color: white;
+            color: black;
+        }
+
+        /* Button Styles */
+        .btn-small {
+            margin-top: 10px;
+            margin-right: 50px;
+            height: 60px;
+            width: 380px;
+            background-color: #ffffff;
+            color: rgb(22, 21, 21);
+            border: none;
+            cursor: pointer;
+            font-size: 22px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-small:hover {
+            background-color: #7d55ea;
+            color: #ffffff;
+        }
+
+        /* Intro Section Styles */
+        .Intro {
+            width: 30%;
+            margin-left: 100px;
+            position: absolute;
+            top: 50%;
+            left: calc(50% - 50%);
+            transform: translateY(-50%);
+        }
+
+        h1 {
+            font-size: 60px;
+            margin: 0;
+        }
+
+        p {
+            margin-left: 30px;
+        }
+
+        /* Button Container */
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-left: 50px;
+        }
+
+        .button-container button {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="Container">
+        <!-- Intro Section -->
+        <div class="Intro">
+            <h1>Welcome to the <br>Quiz Master 
+        </div>
+
+        <!-- Buttons -->
+        <div class="container">
+            <div class="button-container">
+                <a href="{{ url_for('auth.login') }}"><button class="btn-small">Login</button></a>
+                <a href="{{ url_for('auth.signup') }}"><button class="btn-small">Sign Up</button></a>
+                <a href="{{ url_for('auth.admin_login') }}"><button class="btn-small">Admin</button></a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

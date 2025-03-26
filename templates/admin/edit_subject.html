@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+</head>
+<body>
+    <div class="form-container">
+        <form method="POST">
+            <label for="subject_name">Subject Name:</label>
+            <input type="text" id="subject_name" name="subject_name" value="{{ subject[1] }}" required>
+        
+            <button type="submit">Update Subject</button>
+            <a href="{{ url_for('admin.admin_dashboard') }}"><button type="button">Cancel</button></a>
+        </form>
+
+
+    </div>
+    
+    
+    
+</body>
+</html>

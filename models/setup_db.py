@@ -1,10 +1,26 @@
 import sqlite3
 
-def initialize_database():
-    conn = sqlite3.connect('quiz_master.db')
-    cursor = conn.cursor()
+DB_PATH = "quiz_master.db"  # ✅ Change this if needed
 
-    cursor.execute("PRAGMA foreign_keys = ON;")
+def get_db_connection():
+    """Returns a database connection with foreign keys enabled."""
+    try:
+        conn = sqlite3.connect(DB_PATH) 
+        conn.execute("PRAGMA foreign_keys = ON;")  # ✅ Ensures foreign keys are enforced
+        return conn
+    except sqlite3.Error as e:
+        print(f"❌ Database connection failed: {e}")
+        return None  # Prevents returning a broken connection
+
+
+def initialize_database():
+    """Creates necessary tables if they don't exist."""
+    conn = get_db_connection()
+    if conn is None:
+        print("❌ Cannot initialize database, connection failed!")
+        return
+
+    cursor = conn.cursor()
 
     # Create tables if they do not exist
     cursor.execute(''' CREATE TABLE IF NOT EXISTS SUBJECTS(
@@ -25,7 +41,7 @@ def initialize_database():
     quiz_name TEXT NOT NULL,
     chapter_id INTEGER NOT NULL,
     date TEXT NOT NULL,
-    duration TEXT NOT NULL,
+    duration INTEGER NOT NULL,
     FOREIGN KEY(chapter_id) REFERENCES CHAPTERS(id) on DELETE CASCADE ON UPDATE CASCADE
     )''')
 
@@ -59,14 +75,20 @@ def initialize_database():
     )''')
     cursor.execute("INSERT OR IGNORE INTO ADMIN (id, username, password) VALUES (1, 'ayush', '23f3000370')")
 
-    cursor.execute('''CREATE TABLE IF NOT EXISTS SCORES (
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS SCORES (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         quiz_id INTEGER NOT NULL,
         user_id INTEGER NOT NULL,
         total_scored INTEGER,
-        FOREIGN KEY(quiz_id) REFERENCES QUIZES(id) ON DELETE CASCADE,
-        FOREIGN KEY(user_id) REFERENCES USERS(id) ON DELETE CASCADE
+        timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,  -- ✅ Automatically stores quiz attempt time
+        FOREIGN KEY (quiz_id) REFERENCES QUIZES(id) ON DELETE CASCADE,
+        FOREIGN KEY (user_id) REFERENCES USERS(id) ON DELETE CASCADE
     )''')
+
+
+    
+
 
     conn.commit()
     conn.close()

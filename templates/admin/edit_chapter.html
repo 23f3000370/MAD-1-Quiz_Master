@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+</head>
+<body>
+    <div class="form-container">
+        <form method="POST">
+            <label for="chapter_name">Chapter Name:</label>
+            <input type="text" id="chapter_name" name="chapter_name" value="{{ chapter[1] }}" required>
+        
+            <label for="description">No of Question:</label>
+            <input type="text" id="no_of_question" name="no_of_question" value="{{ chapter[3] }}" required>
+            
+        
+            <button type="submit">Update Chapter</button>
+        </form>
+
+
+    </div>
+    
+</body>
+</html>

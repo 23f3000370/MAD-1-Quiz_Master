@@ -7,7 +7,7 @@ user_bp = Blueprint('user', __name__)
 @user_bp.route('/dashboard')
 def user_dashboard():
     if 'user_id' not in session:
-        return redirect(url_for('login'))
+        return redirect(url_for('auth.login'))
 
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -30,13 +30,13 @@ def user_dashboard():
     scores = cursor.fetchall()
 
     conn.close()
-    return render_template('user_dashboard.html', quizzes=quizzes, scores=scores)
+    return render_template('user/user_dashboard.html', quizzes=quizzes, scores=scores)
 
 # ✅ Attempt Quiz Route
 @user_bp.route('/quiz_attempt/<int:quiz_id>', methods=['GET', 'POST'])
 def quiz_attempt(quiz_id):
     if 'user_id' not in session:
-        return redirect(url_for('login'))
+        return redirect(url_for('auth.login'))
 
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -74,16 +74,16 @@ def quiz_attempt(quiz_id):
         conn.commit()
         conn.close()
 
-        return render_template('quiz_result.html', feedback=feedback, score=score, total=len(questions))
+        return render_template('user/quiz_result.html', feedback=feedback, score=score, total=len(questions))
 
     conn.close()
-    return render_template('quiz_attempt.html', questions=questions, quiz_id=quiz_id, duration=duration)
+    return render_template('user/quiz_attempt.html', questions=questions, quiz_id=quiz_id, duration=duration)
 
 # ✅ User Scores Route
 @user_bp.route('/scores')
 def user_scores():
     if 'user_id' not in session:
-        return redirect(url_for('login'))
+        return redirect(url_for('auth.login'))
 
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -98,71 +98,44 @@ def user_scores():
     scores = cursor.fetchall()
 
     conn.close()
-    return render_template('user_scores.html', scores=scores)
+    return render_template('user/user_scores.html', scores=scores)
 
-# ✅ Summary Route
-@user_bp.route('/summary')
-def summary():
+
+    
+@user_bp.route('/user_summary')
+def user_summary():
     print("Session Data:", session)  # Debugging session contents
+
+    if session.get('user_id') is None:
+        return redirect(url_for('auth.login'))  # ✅ Ensure only users can access
 
     conn = get_db_connection()
     cursor = conn.cursor()
 
-    if 'admin' in session:  # Admin summary
-        cursor.execute('''
-            SELECT SUBJECTS.subject_name, COUNT(DISTINCT SCORES.user_id) 
-            FROM SCORES
-            JOIN QUIZES ON SCORES.quiz_id = QUIZES.id
-            JOIN CHAPTERS ON QUIZES.chapter_id = CHAPTERS.id
-            JOIN SUBJECTS ON CHAPTERS.subject_id = SUBJECTS.id
-            GROUP BY SUBJECTS.subject_name
-        ''')
-        subject_attempts = cursor.fetchall()
+    # Fetch subject-wise quizzes attempted by the user
+    cursor.execute('''
+        SELECT SUBJECTS.subject_name, COUNT(SCORES.quiz_id) 
+        FROM SCORES
+        JOIN QUIZES ON SCORES.quiz_id = QUIZES.id
+        JOIN CHAPTERS ON QUIZES.chapter_id = CHAPTERS.id
+        JOIN SUBJECTS ON CHAPTERS.subject_id = SUBJECTS.id
+        WHERE SCORES.user_id = ?
+        GROUP BY SUBJECTS.subject_name
+    ''', (session['user_id'],))
+    user_subject_attempts = cursor.fetchall()
 
-        cursor.execute('''
-            SELECT SUBJECTS.subject_name, MAX(SCORES.total_scored)
-            FROM SCORES
-            JOIN QUIZES ON SCORES.quiz_id = QUIZES.id
-            JOIN CHAPTERS ON QUIZES.chapter_id = CHAPTERS.id
-            JOIN SUBJECTS ON CHAPTERS.subject_id = SUBJECTS.id
-            GROUP BY SUBJECTS.subject_name
-        ''')
-        subject_top_scores = cursor.fetchall()
+    # Fetch month-wise quizzes attempted by the user
+    cursor.execute('''
+        SELECT strftime('%Y-%m', SCORES.timestamp) AS month, COUNT(*)
+        FROM SCORES
+        WHERE SCORES.user_id = ?
+        GROUP BY month
+    ''', (session['user_id'],))
+    user_month_attempts = cursor.fetchall()
 
-        conn.close()
-        return render_template(
-            'admin_summary.html',
-            subject_attempts=subject_attempts,
-            subject_top_scores=subject_top_scores
-        )
-
-    elif 'user_id' in session:  # User summary
-        cursor.execute('''
-            SELECT SUBJECTS.subject_name, COUNT(SCORES.quiz_id) 
-            FROM SCORES
-            JOIN QUIZES ON SCORES.quiz_id = QUIZES.id
-            JOIN CHAPTERS ON QUIZES.chapter_id = CHAPTERS.id
-            JOIN SUBJECTS ON CHAPTERS.subject_id = SUBJECTS.id
-            WHERE SCORES.user_id = ?
-            GROUP BY SUBJECTS.subject_name
-        ''', (session['user_id'],))
-        user_subject_attempts = cursor.fetchall()
-
-        cursor.execute('''
-            SELECT strftime('%Y-%m', SCORES.timestamp) AS month, COUNT(*)
-            FROM SCORES
-            WHERE SCORES.user_id = ?
-            GROUP BY month
-        ''', (session['user_id'],))
-        user_month_attempts = cursor.fetchall()
-
-        conn.close()
-        return render_template(
-            'user_summary.html',
-            user_subject_attempts=user_subject_attempts,
-            user_month_attempts=user_month_attempts
-        )
-
-    else:
-        conn.close()
-        return redirect(url_for('login'))
+    conn.close()
+    return render_template(
+        'user/user_summary.html',
+        user_subject_attempts=user_subject_attempts,
+        user_month_attempts=user_month_attempts
+    )

@@ -33,7 +33,7 @@ def admin_dashboard():
                 "no_of_question": chap[3]
             })
 
-    return render_template('admin_dashboard.html', subjects=subject_dict.values())
+    return render_template('admin/admin_dashboard.html', subjects=subject_dict.values())
 
 
 # ✅ Add Subject Route
@@ -69,7 +69,7 @@ def add_subject():
 
         return redirect(url_for('admin.admin_dashboard'))
 
-    return render_template('add_subject.html')
+    return render_template('admin/add_subject.html')
 
 # ✅ Add Chapter Route
 @admin_bp.route('/add_chapter', methods=["GET", "POST"])
@@ -109,12 +109,12 @@ def add_chapter():
         conn.close()
         return redirect(url_for("admin.admin_dashboard"))
 
-    return render_template('add_chapter.html')
+    return render_template('admin/add_chapter.html')
 
-@app.route('/add_quiz', methods=["GET", "POST"])
+@admin_bp.route('/add_quiz', methods=["GET", "POST"])
 def add_quiz():
     if 'admin' not in session:
-        return redirect(url_for('admin_login'))
+        return redirect(url_for('auth.admin_login'))
 
     if request.method == "POST":
         quiz_name = request.form.get("quiz_name", "").strip()
@@ -125,15 +125,15 @@ def add_quiz():
         # ✅ Input validation
         if not quiz_name:
             flash("Quiz name is required!", "danger")
-            return redirect(url_for("add_quiz"))
+            return redirect(url_for("admin.add_quiz"))
 
         if not chapter_id.isdigit():
             flash("Invalid Chapter ID!", "danger")
-            return redirect(url_for("add_quiz"))
+            return redirect(url_for("admin.add_quiz"))
 
         if not duration.isdigit():
             flash("Duration must be a valid number!", "danger")
-            return redirect(url_for("add_quiz"))
+            return redirect(url_for("admin.add_quiz"))
 
         chapter_id = int(chapter_id)
         duration = int(duration)
@@ -146,7 +146,7 @@ def add_quiz():
             cursor.execute("SELECT id FROM CHAPTERS WHERE id = ?", (chapter_id,))
             if not cursor.fetchone():
                 flash("Error: Chapter ID does not exist!", "danger")
-                return redirect(url_for("add_quiz"))
+                return redirect(url_for("admin.add_quiz"))
 
             # ✅ Insert into QUIZES
             cursor.execute("""
@@ -162,14 +162,14 @@ def add_quiz():
         finally:
             conn.close()
 
-        return redirect(url_for("view_quiz"))
+        return redirect(url_for("admin.view_quiz"))
 
-    return render_template("add_quiz.html")
+    return render_template("admin/add_quiz.html")
 
-@app.route('/add_question', methods=["GET", "POST"])
+@admin_bp.route('/add_question', methods=["GET", "POST"])
 def add_question():
     if 'admin' not in session:
-        return redirect(url_for('admin_login'))
+        return redirect(url_for('auth.admin_login'))
 
     if request.method == "POST":
         question_title = request.form.get("question_title", "").strip()
@@ -184,17 +184,17 @@ def add_question():
         # ✅ Input Validation
         if not question_title or not question or not option1 or not option2 or not option3 or not option4:
             flash("All fields are required!", "danger")
-            return redirect(url_for("add_question"))
+            return redirect(url_for("admin.add_question"))
 
         if not quiz_id.isdigit():
             flash("Invalid Quiz ID!", "danger")
-            return redirect(url_for("add_question"))
+            return redirect(url_for("admin.add_question"))
 
         quiz_id = int(quiz_id)
 
         if correct not in [option1, option2, option3, option4]:
             flash("Correct answer must match one of the provided options!", "danger")
-            return redirect(url_for("add_question"))
+            return redirect(url_for("admin.add_question"))
 
         conn = get_db_connection()
         cursor = conn.cursor()
@@ -204,7 +204,7 @@ def add_question():
             cursor.execute("SELECT id FROM QUIZES WHERE id = ?", (quiz_id,))
             if not cursor.fetchone():
                 flash("Error: Quiz ID does not exist!", "danger")
-                return redirect(url_for("add_question"))
+                return redirect(url_for("admin.add_question"))
 
             # ✅ Insert question into database
             cursor.execute("""
@@ -220,9 +220,9 @@ def add_question():
         finally:
             conn.close()
 
-        return redirect(url_for('view_quiz'))
+        return redirect(url_for('admin.view_quiz'))
 
-    return render_template("add_question.html")
+    return render_template("admin/add_question.html")
 
 # ✅ View Quiz Route
 @admin_bp.route('/view_quiz')
@@ -251,7 +251,7 @@ def view_quiz():
                 "question_title": question_title
             })
 
-    return render_template('view_quiz.html', quizes=quiz_dict.values())
+    return render_template('admin/view_quiz.html', quizes=quiz_dict.values())
 
 # ✅ Search Admin Route
 @admin_bp.route('/search_admin', methods=['GET'])
@@ -278,13 +278,13 @@ def search_admin():
 
     conn.close()
 
-    return render_template('admin_search_results.html', subjects=subjects, chapters=chapters, quizzes=quizzes, questions=questions)
+    return render_template('admin/admin_search_results.html', subjects=subjects, chapters=chapters, quizzes=quizzes, questions=questions)
 
 # Delete Subject Route
-@app.route('/delete_subject/<int:subject_id>')
+@admin_bp.route('/delete_subject/<int:subject_id>')
 def delete_subject(subject_id):
     if 'admin' not in session:
-        return redirect(url_for('admin_login'))
+        return redirect(url_for('auth.admin_login'))
     
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -292,12 +292,12 @@ def delete_subject(subject_id):
     conn.commit()
     conn.close()
     
-    return redirect(url_for('admin_dashboard'))
+    return redirect(url_for('admin.admin_dashboard'))
 
-@app.route('/delete_chapter/<int:chapter_id>')
+@admin_bp.route('/delete_chapter/<int:chapter_id>')
 def delete_chapter(chapter_id):
     if 'admin' not in session:
-        return redirect(url_for('admin_login'))
+        return redirect(url_for('auth.admin_login'))
     
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -305,12 +305,12 @@ def delete_chapter(chapter_id):
     conn.commit()
     conn.close()
     
-    return redirect(url_for('admin_dashboard'))
+    return redirect(url_for('admin.admin_dashboard'))
 
-@app.route('/delete_quiz/<int:quiz_id>')
+@admin_bp.route('/delete_quiz/<int:quiz_id>')
 def delete_quiz(quiz_id):
     if 'admin' not in session:
-        return redirect(url_for('admin_login'))
+        return redirect(url_for('auth.admin_login'))
     
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -318,13 +318,13 @@ def delete_quiz(quiz_id):
     conn.commit()
     conn.close()
     
-    return redirect(url_for('view_quiz'))
+    return redirect(url_for('admin.view_quiz'))
 
 
-@app.route('/delete_question/<int:question_id>')
+@admin_bp.route('/delete_question/<int:question_id>')
 def delete_question(question_id):
     if 'admin' not in session:
-        return redirect(url_for('admin_login'))
+        return redirect(url_for('auth.admin_login'))
     
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -332,9 +332,9 @@ def delete_question(question_id):
     conn.commit()
     conn.close()
     
-    return redirect(url_for('view_quiz'))
+    return redirect(url_for('admin.view_quiz'))
 
-@app.route('/edit_chapter/<int:chapter_id>', methods=['GET', 'POST'])
+@admin_bp.route('/edit_chapter/<int:chapter_id>', methods=['GET', 'POST'])
 def edit_chapter(chapter_id):
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -347,14 +347,14 @@ def edit_chapter(chapter_id):
                        (chapter_name, no_of_question ,chapter_id))
         conn.commit()
         conn.close()
-        return redirect(url_for('admin_dashboard'))  
+        return redirect(url_for('admin.admin_dashboard'))  
 
     cursor.execute("SELECT * FROM CHAPTERS WHERE id = ?", (chapter_id,))
     chapter = cursor.fetchone()
     conn.close()
-    return render_template('edit_chapter.html', chapter=chapter)
+    return render_template('admin/edit_chapter.html', chapter=chapter)
 
-@app.route('/edit_quiz/<int:quiz_id>', methods=['GET', 'POST'])
+@admin_bp.route('/edit_quiz/<int:quiz_id>', methods=['GET', 'POST'])
 def edit_quiz(quiz_id):
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -368,17 +368,17 @@ def edit_quiz(quiz_id):
                        (new_name, new_date, new_duration, quiz_id))
         conn.commit()
         conn.close()
-        return redirect(url_for('admin_dashboard'))  
+        return redirect(url_for('admin.admin_dashboard'))  
 
     cursor.execute("SELECT * FROM QUIZES WHERE id = ?", (quiz_id,))
     quiz = cursor.fetchone()
     conn.close()
-    return render_template('edit_quiz.html', quiz=quiz)
+    return render_template('admin/edit_quiz.html', quiz=quiz)
 
-@app.route('/edit_subject/<int:subject_id>', methods=['GET', 'POST'])
+@admin_bp.route('/edit_subject/<int:subject_id>', methods=['GET', 'POST'])
 def edit_subject(subject_id):
     if 'admin' not in session:
-        return redirect(url_for('admin_login'))
+        return redirect(url_for('auth.admin_login'))
 
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -390,18 +390,18 @@ def edit_subject(subject_id):
         ''', (subject_name, subject_id))
         conn.commit()
         conn.close()
-        return redirect(url_for('admin_dashboard'))
+        return redirect(url_for('admin.admin_dashboard'))
 
     cursor.execute("SELECT id, subject_name FROM SUBJECTS WHERE id = ?", (subject_id,))
     subject = cursor.fetchone()
     conn.close()
 
-    return render_template('edit_subject.html', subject=subject)
+    return render_template('admin/edit_subject.html', subject=subject)
 
-@app.route('/edit_question/<int:question_id>', methods=['GET', 'POST'])
+@admin_bp.route('/edit_question/<int:question_id>', methods=['GET', 'POST'])
 def edit_question(question_id):
     if 'admin' not in session:
-        return redirect(url_for('admin_login'))
+        return redirect(url_for('auth.admin_login'))
 
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -421,11 +421,53 @@ def edit_question(question_id):
         ''', (question_title, option1, option2, option3, option4, answer, question_id))
         conn.commit()
         conn.close()
-        return redirect(url_for('view_quiz'))
+        return redirect(url_for('admin.view_quiz'))
 
     cursor.execute("SELECT * FROM QUESTIONS WHERE id = ?", (question_id,))
     question = cursor.fetchone()
     conn.close()
 
-    return render_template('edit_question.html', question=question)
+    return render_template('admin/edit_question.html', question=question)
+
+@admin_bp.route('/admin_summary')
+def admin_summary():
+    print("Session Data:", session)  # Debugging session contents
+
+    if session.get('admin') is not True:
+        return redirect(url_for('login'))  # ✅ Ensure only admins can access
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    # Fetch subject-wise user attempts
+    cursor.execute('''
+        SELECT SUBJECTS.subject_name, COUNT(DISTINCT SCORES.user_id) 
+        FROM SCORES
+        JOIN QUIZES ON SCORES.quiz_id = QUIZES.id
+        JOIN CHAPTERS ON QUIZES.chapter_id = CHAPTERS.id
+        JOIN SUBJECTS ON CHAPTERS.subject_id = SUBJECTS.id
+        GROUP BY SUBJECTS.subject_name
+    ''')
+    subject_attempts = cursor.fetchall()
+
+    # Fetch subject-wise top scores
+    cursor.execute('''
+        SELECT SUBJECTS.subject_name, MAX(SCORES.total_scored)
+        FROM SCORES
+        JOIN QUIZES ON SCORES.quiz_id = QUIZES.id
+        JOIN CHAPTERS ON QUIZES.chapter_id = CHAPTERS.id
+        JOIN SUBJECTS ON CHAPTERS.subject_id = SUBJECTS.id
+        GROUP BY SUBJECTS.subject_name
+    ''')
+    subject_top_scores = cursor.fetchall()
+
+    conn.close()
+    return render_template(
+        'admin/admin_summary.html',
+        subject_attempts=subject_attempts,
+        subject_top_scores=subject_top_scores
+    )
+
+
+
 

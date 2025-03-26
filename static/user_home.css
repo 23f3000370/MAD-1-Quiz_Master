@@ -1,0 +1,137 @@
+/* Reset default styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f8f8fc; /* Light creamy background */
+  color: #333;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Sidebar Navigation */
+.nav {
+  width: 120px; 
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  background-color: white; /* Purple navbar */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.nav-button {
+  background-color: transparent;
+  border: none;
+  color: #7d55ea;
+  text-align: center;
+  padding: 12px;
+  width: 100%;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.nav-button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Search Bar */
+.search-bar {
+  width: 90%;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin: 10px 0;
+}
+
+/* Buttons */
+button {
+  padding: 10px 15px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background 0.3s ease;
+}
+
+.submit-button {
+  background-color: #4CAF50; /* Green submit button */
+  color: white;
+}
+
+.submit-button:hover {
+  background-color: #45a049;
+}
+
+.delete-button {
+  background-color: #e74c3c; /* Red delete button */
+  color: white;
+}
+
+.delete-button:hover {
+  background-color: #c0392b;
+}
+
+/* Content Container */
+.container {
+  width: 85%;
+  margin: 20px auto;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Headings */
+h1 {
+  color: black; /* Purple */
+  margin-bottom: 20px;
+}
+
+h2 {
+  color: rgba(125, 85, 234, 0.8);
+  margin-bottom: 15px;
+}
+
+/* Table Styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+thead th {
+  background-color: #7d55ea; /* Purple headers */
+  color: white;
+  padding: 10px;
+}
+
+tbody td {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Chart Styling */
+canvas {
+  max-width: 600px;
+  max-height: 300px;
+  display: block;
+  margin: auto;
+}

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='user_home.css') }}">
+</head>
+
+<body>
+    <nav class="nav">
+        <div class="nav-left">
+            <a href="{{ url_for('user.user_dashboard') }}"><button class="nav-button">Dashboard</button></a>
+            <a href="{{ url_for('user.user_scores') }}"><button class="nav-button">Scores</button></a>
+            <a href="{{ url_for('user.user_summary') }}"><button class="nav-button">summary</button></a>
+            <a href="{{ url_for('auth.logout') }}"><button class="nav-button">Logout</button></a>
+        </div>
+    </nav> 
+    <h1>Welcome to Your Dashboard</h1>
+    <div class="container">
+        <h2>Available Quizzes</h2>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Quiz ID</th>
+                    <th>Quiz name</th>
+                    <th>Duration</th>
+                    <th>chapter</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for quiz in quizzes %}
+                <tr>
+                    <td>{{ quiz[0] }}</td>
+                    <td>{{ quiz[1] }}</td>
+                    <td>{{ quiz[3] }}</td>
+                    <td>{{ quiz[4] }}</td>
+                    <td>
+                        <a href="{{ url_for('user.quiz_attempt', quiz_id=quiz[0]) }}">
+                            <button class="quiz_start"
+                                style="background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+                                Start Quiz
+                            </button>
+                        </a>
+
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5">No quizzes available.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</body>
+
+</html>

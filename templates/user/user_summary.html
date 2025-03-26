@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Summary</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='user_home.css') }}">
+</head>
+
+<body>
+    <nav class="nav">
+        <div class="nav-left">
+            <a href="{{ url_for('user.user_dashboard') }}"><button class="nav-button">Dashboard</button></a>
+            <a href="{{ url_for('user.user_scores') }}"><button class="nav-button">Scores</button></a>
+            <a href="{{ url_for('user.user_summary') }}"><button class="nav-button">summary</button></a>
+            <a href="{{ url_for('auth.logout') }}"><button class="nav-button">Logout</button></a>
+        </div>
+    </nav>
+    <div class="container">
+        <h2>User Summary Dashboard</h2>
+        <!-- Subject-wise Quizzes Attempted (Bar Chart) -->
+        <h3>Quizzes Attempted (Subject-wise)</h3>
+        <canvas id="userSubjectAttemptsChart" width="500" height="300"></canvas>
+        <!-- Month-wise Quizzes Attempted (Pie Chart) -->
+        <h3>Quizzes Attempted (Month-wise)</h3>
+        <canvas id="userMonthAttemptsChart" width="500" height="300"></canvas>
+    </div>
+    <script>
+        // Subject-wise Quizzes Attempted (Bar Chart)
+        var userSubLabels = JSON.parse('{{ user_subject_attempts | tojson | safe }}');
+
+        var ctx3 = document.getElementById('userSubjectAttemptsChart').getContext('2d');
+        new Chart(ctx3, {
+            type: 'bar',
+            data: {
+                labels: userSubLabels.map(item => item[0]),
+                datasets: [{
+                    label: 'Quizzes Attempted',
+                    data: userSubLabels.map(item => item[1]),
+                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            }
+        });
+
+        // Month-wise Quizzes Attempted (Pie Chart)
+        var userMonthLabels = JSON.parse('{{ user_month_attempts | tojson | safe }}');
+
+        var ctx4 = document.getElementById('userMonthAttemptsChart').getContext('2d');
+        new Chart(ctx4, {
+            type: 'pie',
+            data: {
+                labels: userMonthLabels.map(item => item[0]),
+                datasets: [{
+                    label: 'Monthly Quizzes',
+                    data: userMonthLabels.map(item => item[1]),
+                    backgroundColor: ['orange', 'blue', 'green', 'pink'],
+                }]
+            }
+        });
+    </script>
+</body>
+</html>
