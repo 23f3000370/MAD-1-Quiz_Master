@@ -73,7 +73,7 @@ def initialize_database():
         username TEXT UNIQUE NOT NULL,
         password TEXT NOT NULL
     )''')
-    cursor.execute("INSERT OR IGNORE INTO ADMIN (id, username, password) VALUES (1, 'ayush', '23f3000370')")
+    cursor.execute("INSERT OR IGNORE INTO ADMIN (id, username, password) VALUES (1, 'ayush2004@gmail.com', '23f3000370')")
 
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS SCORES (
