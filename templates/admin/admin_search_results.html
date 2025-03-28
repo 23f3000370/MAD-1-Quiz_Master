@@ -12,18 +12,26 @@
 <body>
   <nav class="nav">
     <div class="nav-left">
-      <a href="{{ url_for('admin.admin_dashboard') }}"><button class="nav-button"><i class="fas fa-home fa-2x"></i></button></a>
-      <a href="{{ url_for('admin.view_quiz') }}"><button class="nav-button"><i class="fas fa-list fa-2x"></i></button></a>
-      <a href="{{ url_for('admin.add_subject') }}"><button class="nav-button"><i class="fas fa-book fa-2x"></i></button></a>
-      <a href="{{ url_for('admin.add_chapter') }}"><button class="nav-button"><i class="fas fa-file-alt fa-2x"></i></button></a>
-      <a href="{{ url_for('admin.add_quiz') }}"><button class="nav-button"><i class="fas fa-tasks fa-2x"></i></button></a>
-      <a href="{{ url_for('admin.add_question') }}"><button class="nav-button"><i class="fas fa-question-circle fa-2x"></i></button></a>
-      <a href="{{ url_for('admin.admin_summary') }}"><button class="nav-button"><i class="fas fa-chart-bar fa-2x"></i></button></a>
-      <a href="{{ url_for('auth.logout') }}"><button class="nav-button"><i class="fas fa-sign-out-alt fa-2x"></i>logout</button></a>
+      <a href="{{ url_for('admin.admin_dashboard') }}"><button class="nav-button"><i
+            class="fas fa-home fa-2x"></i></button></a>
+      <a href="{{ url_for('admin.view_quiz') }}"><button class="nav-button"><i
+            class="fas fa-list fa-2x"></i></button></a>
+      <a href="{{ url_for('admin.add_subject') }}"><button class="nav-button"><i
+            class="fas fa-book fa-2x"></i></button></a>
+      <a href="{{ url_for('admin.add_chapter') }}"><button class="nav-button"><i
+            class="fas fa-file-alt fa-2x"></i></button></a>
+      <a href="{{ url_for('admin.add_quiz') }}"><button class="nav-button"><i
+            class="fas fa-tasks fa-2x"></i></button></a>
+      <a href="{{ url_for('admin.add_question') }}"><button class="nav-button"><i
+            class="fas fa-question-circle fa-2x"></i></button></a>
+      <a href="{{ url_for('admin.admin_summary') }}"><button class="nav-button"><i
+            class="fas fa-chart-bar fa-2x"></i></button></a>
+      <a href="{{ url_for('auth.logout') }}"><button class="nav-button"><i
+            class="fas fa-sign-out-alt fa-2x"></i>logout</button></a>
     </div>
   </nav>
 
- 
+
   <nav class="nav2">
     <div class="nav-right">
       <form method="GET" action="{{ url_for('admin.search_admin') }}">
@@ -31,9 +39,8 @@
         <button type="submit" class="search-button">Search</button>
       </form>
       <br><br>
-      <img src="{{ url_for('static', filename='ayush.jpeg') }}" alt="Admin Profile" class="profile">
+      <img src="{{ url_for('static', filename='profile.png') }}" alt="Admin Profile" class="profile">
       <h1>Ayush Choudhary</h1>
-      <br>
       <h2>23f3000370</h2>
     </div>
   </nav>
@@ -43,43 +50,44 @@
     <h2>Search Results</h2>
 
     {% if subjects %}
-      <h3>Subjects</h3>
-      <ul class="search-list">
-        {% for subject in subjects %}
-          <li>{{ subject[1] }}</li>
-        {% endfor %}
-      </ul>
+    <h3>Subjects</h3>
+    <ul class="search-list">
+      {% for subject in subjects %}
+      <li>{{ subject[1] }}</li>
+      {% endfor %}
+    </ul>
     {% endif %}
 
     {% if chapters %}
-      <h3>Chapters</h3>
-      <ul class="search-list">
-        {% for chapter in chapters %}
-          <li>{{ chapter[1] }}</li>
-        {% endfor %}
-      </ul>
+    <h3>Chapters</h3>
+    <ul class="search-list">
+      {% for chapter in chapters %}
+      <li>{{ chapter[1] }}</li>
+      {% endfor %}
+    </ul>
     {% endif %}
 
     {% if quizzes %}
-      <h3>Quizzes</h3>
-      <ul class="search-list">
-        {% for quiz in quizzes %}
-          <li>{{ quiz[1] }}</li>
-        {% endfor %}
-      </ul>
+    <h3>Quizzes</h3>
+    <ul class="search-list">
+      {% for quiz in quizzes %}
+      <li>{{ quiz[1] }}</li>
+      {% endfor %}
+    </ul>
     {% endif %}
 
     {% if questions %}
-      <h3>Questions</h3>
-      <ul class="search-list">
-        {% for question in questions %}
-          <li>{{ question[1] }}</li>
-        {% endfor %}
-      </ul>
+    <h3>Questions</h3>
+    <ul class="search-list">
+      {% for question in questions %}
+      <li>{{ question[1] }}</li>
+      {% endfor %}
+    </ul>
     {% endif %}
 
     <a href="{{ url_for('admin.admin_dashboard') }}"><button class="back-button">Back to Dashboard</button></a>
   </div>
 
 </body>
+
 </html>

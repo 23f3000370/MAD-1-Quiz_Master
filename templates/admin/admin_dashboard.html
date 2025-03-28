@@ -38,21 +38,21 @@
         <button type="submit" class="search-button">Search</button>
       </form>
       <br><br>
-      <img src="{{ url_for('static', filename='ayush.jpeg') }}" alt="Admin Profile" class="profile">
-      <h1>Ayush Choudhary</h1>
+      <img src="{{ url_for('static', filename='profile.png') }}" alt="Admin Profile" class="profile">
       <br>
+      <h1>Ayush Choudhary</h1>
       <h2>23f3000370</h2>
-      
+
     </div>
   </nav>
 
   <div class="flash-container">
     {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        {% for category, message in messages %}
-          <div class="alert alert-{{ category }}">{{ message }}</div>
-        {% endfor %}
-      {% endif %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }}">{{ message }}</div>
+    {% endfor %}
+    {% endif %}
     {% endwith %}
   </div>
 
