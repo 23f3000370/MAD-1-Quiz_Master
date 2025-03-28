@@ -2,7 +2,7 @@ from flask import Flask, render_template
 from controllers import register_blueprints
 
 app = Flask(__name__)
-app.secret_key = "your_secret_key"
+app.secret_key = "23f3000370_secret_key"
 
 register_blueprints(app)
 
@@ -13,6 +13,7 @@ def home():
 
 if __name__ == "__main__":
     app.run(debug=True)
+    
 
 
 
