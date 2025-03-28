@@ -145,7 +145,7 @@ def add_quiz():
             cursor.execute("SELECT id FROM CHAPTERS WHERE id = ?", (chapter_id,))
             if not cursor.fetchone():
                 flash("Error: Chapter ID does not exist!", "danger")
-                return redirect(url_for("admin.add_quiz"))
+                return redirect(url_for("admin.view_quiz"))
 
            
             cursor.execute("""
@@ -187,7 +187,7 @@ def add_question():
 
         if not quiz_id.isdigit():
             flash("Invalid Quiz ID!", "danger")
-            return redirect(url_for("admin.add_question"))
+            return redirect(url_for("admin.view_quiz"))
 
         quiz_id = int(quiz_id)
 
