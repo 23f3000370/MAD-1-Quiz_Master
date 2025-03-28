@@ -10,7 +10,6 @@
 </head>
 
 <body>
-  <!-- Left Navbar -->
   <nav class="nav">
     <div class="nav-left">
       <a href="{{ url_for('admin.admin_dashboard') }}"><button class="nav-button"><i class="fas fa-home fa-2x"></i></button></a>
@@ -24,7 +23,7 @@
     </div>
   </nav>
 
-  <!-- Right Navbar -->
+ 
   <nav class="nav2">
     <div class="nav-right">
       <form method="GET" action="{{ url_for('admin.search_admin') }}">
@@ -39,18 +38,7 @@
     </div>
   </nav>
 
-  <!-- Flash Messages -->
-  <div class="flash-container">
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        {% for category, message in messages %}
-          <div class="alert alert-{{ category }}">{{ message }}</div>
-        {% endfor %}
-      {% endif %}
-    {% endwith %}
-  </div>
 
-  <!-- Search Results Container -->
   <div class="container3">
     <h2>Search Results</h2>
 

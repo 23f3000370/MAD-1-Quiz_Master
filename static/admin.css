@@ -391,9 +391,3 @@ h3 {
 }
 
 
-@media (max-width: 600px) {
-  .form-container {
-    width: 90%;
-    padding: 15px;
-  }
-}
