@@ -1,4 +1,4 @@
-/* Reset default styles */
+
 * {
   margin: 0;
   padding: 0;
@@ -7,20 +7,20 @@
 
 body {
   font-family: Arial, sans-serif;
-  background-color: #f8f8fc; /* Light creamy background */
+  background-color: #f8f8fc; 
   color: #333;
   padding: 20px;
   text-align: center;
 }
 
-/* Sidebar Navigation */
+
 .nav {
   width: 120px; 
   position: fixed;
   left: 0;
   top: 0;
   height: 100vh;
-  background-color: white; /* Purple navbar */
+  background-color: white; 
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -43,7 +43,7 @@ body {
   background-color: rgba(255, 255, 255, 0.2);
 }
 
-/* Search Bar */
+
 .search-bar {
   width: 90%;
   padding: 8px;
@@ -53,7 +53,7 @@ body {
   margin: 10px 0;
 }
 
-/* Buttons */
+
 button {
   padding: 10px 15px;
   border: none;
@@ -64,7 +64,7 @@ button {
 }
 
 .submit-button {
-  background-color: #4CAF50; /* Green submit button */
+  background-color: #4CAF50; 
   color: white;
 }
 
@@ -73,7 +73,7 @@ button {
 }
 
 .delete-button {
-  background-color: #e74c3c; /* Red delete button */
+  background-color: #e74c3c; 
   color: white;
 }
 
@@ -81,7 +81,7 @@ button {
   background-color: #c0392b;
 }
 
-/* Content Container */
+
 .container {
   width: 85%;
   margin: 20px auto;
@@ -91,9 +91,9 @@ button {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Headings */
+
 h1 {
-  color: black; /* Purple */
+  color: black; 
   margin-bottom: 20px;
 }
 
@@ -102,7 +102,7 @@ h2 {
   margin-bottom: 15px;
 }
 
-/* Table Styling */
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -110,7 +110,7 @@ table {
 }
 
 thead th {
-  background-color: #7d55ea; /* Purple headers */
+  background-color: #7d55ea; 
   color: white;
   padding: 10px;
 }
@@ -128,7 +128,7 @@ tbody tr:hover {
   background-color: #f1f1f1;
 }
 
-/* Chart Styling */
+
 canvas {
   max-width: 600px;
   max-height: 300px;

@@ -41,10 +41,10 @@ def quiz_attempt(quiz_id):
     conn = get_db_connection()
     cursor = conn.cursor()
 
-    # Fetch quiz duration
+   
     cursor.execute("SELECT duration FROM QUIZES WHERE id = ?", (quiz_id,))
     quiz = cursor.fetchone()
-    duration = int(quiz[0]) if quiz and isinstance(quiz[0], int) else 10  # Default: 10 minutes
+    duration = int(quiz[0]) if quiz and isinstance(quiz[0], int) else 10 
 
     cursor.execute("SELECT * FROM QUESTIONS WHERE quiz_id = ?", (quiz_id,))
     questions = cursor.fetchall()
@@ -68,7 +68,7 @@ def quiz_attempt(quiz_id):
             if selected_answer == correct_answer:
                 score += 1
         
-        # Store score
+    
         cursor.execute("INSERT INTO SCORES (quiz_id, user_id, total_scored) VALUES (?, ?, ?)",
                        (quiz_id, session['user_id'], score))
         conn.commit()
@@ -79,7 +79,7 @@ def quiz_attempt(quiz_id):
     conn.close()
     return render_template('user/quiz_attempt.html', questions=questions, quiz_id=quiz_id, duration=duration)
 
-# ✅ User Scores Route
+
 @user_bp.route('/scores')
 def user_scores():
     if 'user_id' not in session:
@@ -104,15 +104,15 @@ def user_scores():
     
 @user_bp.route('/user_summary')
 def user_summary():
-    print("Session Data:", session)  # Debugging session contents
+    print("Session Data:", session)  
 
     if session.get('user_id') is None:
-        return redirect(url_for('auth.login'))  # ✅ Ensure only users can access
+        return redirect(url_for('auth.login'))  
 
     conn = get_db_connection()
     cursor = conn.cursor()
 
-    # Fetch subject-wise quizzes attempted by the user
+    
     cursor.execute('''
         SELECT SUBJECTS.subject_name, COUNT(SCORES.quiz_id) 
         FROM SCORES
@@ -124,7 +124,7 @@ def user_summary():
     ''', (session['user_id'],))
     user_subject_attempts = cursor.fetchall()
 
-    # Fetch month-wise quizzes attempted by the user
+    
     cursor.execute('''
         SELECT strftime('%Y-%m', SCORES.timestamp) AS month, COUNT(*)
         FROM SCORES

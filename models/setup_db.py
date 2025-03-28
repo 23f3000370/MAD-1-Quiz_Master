@@ -1,16 +1,16 @@
 import sqlite3
 
-DB_PATH = "quiz_master.db"  # ✅ Change this if needed
+DB_PATH = "quiz_master.db"  
 
 def get_db_connection():
     """Returns a database connection with foreign keys enabled."""
     try:
         conn = sqlite3.connect(DB_PATH) 
-        conn.execute("PRAGMA foreign_keys = ON;")  # ✅ Ensures foreign keys are enforced
+        conn.execute("PRAGMA foreign_keys = ON;")  
         return conn
     except sqlite3.Error as e:
         print(f"❌ Database connection failed: {e}")
-        return None  # Prevents returning a broken connection
+        return None  
 
 
 def initialize_database():
@@ -22,7 +22,7 @@ def initialize_database():
 
     cursor = conn.cursor()
 
-    # Create tables if they do not exist
+  
     cursor.execute(''' CREATE TABLE IF NOT EXISTS SUBJECTS(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     subject_name TEXT NOT NULL
@@ -81,7 +81,7 @@ def initialize_database():
         quiz_id INTEGER NOT NULL,
         user_id INTEGER NOT NULL,
         total_scored INTEGER,
-        timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,  -- ✅ Automatically stores quiz attempt time
+        timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,  
         FOREIGN KEY (quiz_id) REFERENCES QUIZES(id) ON DELETE CASCADE,
         FOREIGN KEY (user_id) REFERENCES USERS(id) ON DELETE CASCADE
     )''')

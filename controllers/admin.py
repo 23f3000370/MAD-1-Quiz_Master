@@ -3,25 +3,24 @@ from models.setup_db import get_db_connection
 
 admin_bp = Blueprint('admin', __name__)
 
-# ✅ Admin Dashboard Route
+
 @admin_bp.route('/admin_dashboard')
 def admin_dashboard():
     if 'admin' not in session:
-        return redirect(url_for('auth.admin_login'))  # ✅ Fixed route
+        return redirect(url_for('auth.admin_login')) 
 
     conn = get_db_connection()
     cursor = conn.cursor()
 
-    # Fetch all subjects
     cursor.execute("SELECT * FROM SUBJECTS")
     subjects = cursor.fetchall()
 
-    # Fetch all chapters with the number of questions
+    
     cursor.execute("SELECT id, chapter_name, subject_id, no_of_question FROM CHAPTERS")
     chapters = cursor.fetchall()
     conn.close()
 
-    # Organizing chapters under subjects
+    
     subject_dict = {sub[0]: {"id": sub[0], "name": sub[1], "chapters": []} for sub in subjects}
     
     for chap in chapters:
@@ -36,7 +35,7 @@ def admin_dashboard():
     return render_template('admin/admin_dashboard.html', subjects=subject_dict.values())
 
 
-# ✅ Add Subject Route
+
 @admin_bp.route('/add_subject', methods=['GET', 'POST'])
 def add_subject():
     if 'admin' not in session:
@@ -71,7 +70,7 @@ def add_subject():
 
     return render_template('admin/add_subject.html')
 
-# ✅ Add Chapter Route
+
 @admin_bp.route('/add_chapter', methods=["GET", "POST"])
 def add_chapter():
     if 'admin' not in session:
@@ -122,7 +121,7 @@ def add_quiz():
         date = request.form.get("date", "").strip()
         duration = request.form.get("duration", "").strip()
 
-        # ✅ Input validation
+      
         if not quiz_name:
             flash("Quiz name is required!", "danger")
             return redirect(url_for("admin.add_quiz"))
@@ -142,13 +141,13 @@ def add_quiz():
         cursor = conn.cursor()
 
         try:
-            # ✅ Check if chapter_id exists
+           
             cursor.execute("SELECT id FROM CHAPTERS WHERE id = ?", (chapter_id,))
             if not cursor.fetchone():
                 flash("Error: Chapter ID does not exist!", "danger")
                 return redirect(url_for("admin.add_quiz"))
 
-            # ✅ Insert into QUIZES
+           
             cursor.execute("""
                 INSERT INTO QUIZES (quiz_name, chapter_id, date, duration) 
                 VALUES (?, ?, ?, ?)""",
@@ -181,7 +180,7 @@ def add_question():
         correct = request.form.get("answer", "").strip()
         quiz_id = request.form.get("quiz_id", "").strip()
 
-        # ✅ Input Validation
+        
         if not question_title or not question or not option1 or not option2 or not option3 or not option4:
             flash("All fields are required!", "danger")
             return redirect(url_for("admin.add_question"))
@@ -200,13 +199,13 @@ def add_question():
         cursor = conn.cursor()
 
         try:
-            # ✅ Check if quiz_id exists
+            
             cursor.execute("SELECT id FROM QUIZES WHERE id = ?", (quiz_id,))
             if not cursor.fetchone():
                 flash("Error: Quiz ID does not exist!", "danger")
                 return redirect(url_for("admin.add_question"))
 
-            # ✅ Insert question into database
+            
             cursor.execute("""
                 INSERT INTO QUESTIONS (question_title, question, option1, option2, option3, option4, answer, quiz_id) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
@@ -224,7 +223,7 @@ def add_question():
 
     return render_template("admin/add_question.html")
 
-# ✅ View Quiz Route
+
 @admin_bp.route('/view_quiz')
 def view_quiz():
     if 'admin' not in session:
@@ -233,11 +232,11 @@ def view_quiz():
     conn = get_db_connection()
     cursor = conn.cursor()
 
-    # Fetch all quizzes
+    
     cursor.execute("SELECT id, quiz_name FROM QUIZES")
     quizzes = cursor.fetchall()
 
-    # Fetch all questions with quiz_id
+    
     cursor.execute("SELECT id, quiz_id, question_title FROM QUESTIONS")
     questions = cursor.fetchall()
     conn.close()
@@ -253,7 +252,7 @@ def view_quiz():
 
     return render_template('admin/view_quiz.html', quizes=quiz_dict.values())
 
-# ✅ Search Admin Route
+
 @admin_bp.route('/search_admin', methods=['GET'])
 def search_admin():
     if 'admin' not in session:
@@ -280,7 +279,7 @@ def search_admin():
 
     return render_template('admin/admin_search_results.html', subjects=subjects, chapters=chapters, quizzes=quizzes, questions=questions)
 
-# Delete Subject Route
+
 @admin_bp.route('/delete_subject/<int:subject_id>')
 def delete_subject(subject_id):
     if 'admin' not in session:
@@ -383,7 +382,7 @@ def edit_subject(subject_id):
     conn = get_db_connection()
     cursor = conn.cursor()
 
-    if request.method == 'POST':  # Update subject
+    if request.method == 'POST':  
         subject_name = request.form['subject_name']
         cursor.execute('''
             UPDATE SUBJECTS SET subject_name = ? WHERE id = ?
@@ -431,15 +430,15 @@ def edit_question(question_id):
 
 @admin_bp.route('/admin_summary')
 def admin_summary():
-    print("Session Data:", session)  # Debugging session contents
+    print("Session Data:", session)  
 
     if session.get('admin') is not True:
-        return redirect(url_for('login'))  # ✅ Ensure only admins can access
+        return redirect(url_for('login'))  
 
     conn = get_db_connection()
     cursor = conn.cursor()
 
-    # Fetch subject-wise user attempts
+  
     cursor.execute('''
         SELECT SUBJECTS.subject_name, COUNT(DISTINCT SCORES.user_id) 
         FROM SCORES
@@ -450,7 +449,7 @@ def admin_summary():
     ''')
     subject_attempts = cursor.fetchall()
 
-    # Fetch subject-wise top scores
+ 
     cursor.execute('''
         SELECT SUBJECTS.subject_name, MAX(SCORES.total_scored)
         FROM SCORES

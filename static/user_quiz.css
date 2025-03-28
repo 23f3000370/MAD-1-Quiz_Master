@@ -1,7 +1,7 @@
-/* General Styles */
+
 body {
     font-family: Arial, sans-serif;
-    background-color: #f8f9fa; /* Creamy background */
+    background-color: #f8f9fa; 
     color: #333;
     margin: 0;
     padding: 0;
@@ -10,13 +10,12 @@ body {
     align-items: center;
 }
 
-/* Heading Styles */
+
 h1, h2 {
     text-align: center;
     margin-top: 20px;
 }
 
-/* Quiz Container */
 .container {
     width: 60%;
     background: white;
@@ -25,32 +24,31 @@ h1, h2 {
     border-radius: 8px;
     display: flex;
     flex-direction: column;
-    max-height: 80vh; /* Ensuring it doesn’t take the whole screen */
+    max-height: 80vh; 
 }
 
-/* Scrollable Question Area */
 .question-area {
     flex-grow: 1;
-    overflow-y: auto; /* Enables scrolling only for questions */
-    max-height: 60vh; /* Restricts height */
+    overflow-y: auto; 
+    max-height: 60vh; 
     padding-bottom: 20px;
 }
 
-/* Question Box */
+
 .question-box {
-    background: #f0f0f5; /* Light gray for contrast */
+    background: #f0f0f5; 
     padding: 15px;
     border-radius: 6px;
     margin-bottom: 15px;
-    border-left: 5px solid #6a0dad; /* Purple accent */
+    border-left: 5px solid #6a0dad; 
 }
 
-/* Radio Buttons */
+
 input[type="radio"] {
     margin-right: 10px;
 }
 
-/* Sticky Submit Button */
+
 .buttons {
     position: sticky;
     bottom: 0;
@@ -61,7 +59,7 @@ input[type="radio"] {
     width: 100%;
 }
 
-/* Buttons */
+
 button {
     width: 100%;
     padding: 12px;
@@ -73,12 +71,12 @@ button {
 }
 
 button[type="submit"] {
-    background: #28a745; /* Green for submit */
+    background: #28a745;
     color: white;
 }
 
 button[name="delete"] {
-    background: #dc3545; /* Red for delete */
+    background: #dc3545; 
     color: white;
 }
 

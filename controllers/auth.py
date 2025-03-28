@@ -5,7 +5,7 @@ import sqlite3
 auth_bp = Blueprint('auth', __name__)
 
 
-# ✅ Signup Route (Without Password Hashing)
+
 @auth_bp.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
@@ -30,7 +30,7 @@ def signup():
 
     return render_template('auth/signup.html')
 
-# ✅ Login Route (Without Hashing)
+
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -51,7 +51,7 @@ def login():
 
     return render_template('auth/login.html')
 
-# ✅ Admin Login (Without Hashing)
+
 @auth_bp.route('/admin_login', methods=['GET', 'POST'])
 def admin_login():
     if request.method == 'POST':
@@ -66,13 +66,13 @@ def admin_login():
 
         if admin:
             session['admin'] = True
-            return redirect(url_for('admin.admin_dashboard'))  # ✅ Fixed Redirect
+            return redirect(url_for('admin.admin_dashboard'))  
 
         return "Invalid admin credentials"
 
     return render_template('auth/admin_login.html')
 
-# ✅ Logout Route
+
 @auth_bp.route('/logout')
 def logout():
     session.clear()
