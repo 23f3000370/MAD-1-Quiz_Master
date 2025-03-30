@@ -44,7 +44,7 @@
 
     </div>
     <script>
-        // Subject-wise User Attempts (Bar Chart)
+       
         var subjectLabels = JSON.parse('{{ subject_attempts | tojson | safe }}');
         var subjectData = JSON.parse('{{ subject_attempts | tojson | safe }}');
 
@@ -63,7 +63,6 @@
             }
         });
 
-        // Subject-wise Top Scores (Pie Chart)
         var scoreLabels = JSON.parse('{{ subject_top_scores | tojson | safe }}');
 
         var ctx2 = document.getElementById('subjectScoresChart').getContext('2d');

@@ -42,6 +42,7 @@
       <img src="{{ url_for('static', filename='profile.png') }}" alt="Admin Profile" class="profile">
       <h1>Ayush Choudhary</h1>
       <h2>23f3000370</h2>
+      <a href="{{ url_for('admin.view_users') }}"><button class="back-button">View Users</button></a>
     </div>
   </nav>
 
@@ -81,6 +82,15 @@
     <ul class="search-list">
       {% for question in questions %}
       <li>{{ question[1] }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+
+    {% if users %}
+    <h3>Users</h3>
+    <ul class="search-list">
+      {% for user in users %}
+      <li>{{ user[3] }} - {{ user[1] }} - {{ user[4] }}</li> {# First Name, Last Name, Email #}
       {% endfor %}
     </ul>
     {% endif %}

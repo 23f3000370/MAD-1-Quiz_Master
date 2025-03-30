@@ -275,9 +275,20 @@ def search_admin():
     cursor.execute("SELECT * FROM QUESTIONS WHERE question_title LIKE ?", ('%' + query + '%',))
     questions = cursor.fetchall()
 
+  
+    cursor.execute("SELECT * FROM USERS WHERE full_name LIKE ? OR qualification LIKE ? OR username LIKE ?", 
+                   ('%' + query + '%', '%' + query + '%', '%' + query + '%'))
+    users = cursor.fetchall()
+
     conn.close()
 
-    return render_template('admin/admin_search_results.html', subjects=subjects, chapters=chapters, quizzes=quizzes, questions=questions)
+    return render_template('admin/admin_search_results.html', 
+                           subjects=subjects, 
+                           chapters=chapters, 
+                           quizzes=quizzes, 
+                           questions=questions,
+                           users=users)  
+
 
 
 @admin_bp.route('/delete_subject/<int:subject_id>')
@@ -467,6 +478,20 @@ def admin_summary():
         subject_top_scores=subject_top_scores
     )
 
+@admin_bp.route('/view_users')
+def view_users():
+    if 'admin' not in session:
+        return redirect(url_for('auth.admin_login'))
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    # Fetch all users from the USERS table
+    cursor.execute("SELECT id, full_name, username, qualification FROM USERS")
+    users = cursor.fetchall()
+    
+    conn.close()
+    return render_template('admin/view_users.html', users=users)
 
 
 

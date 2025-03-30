@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Chapter</title>
+    <title>View Users</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
 </head>
@@ -37,29 +37,43 @@
                 <input type="text" name="query" class="search-bar" placeholder="Search...">
                 <button type="submit" class="search-button">Search</button>
             </form>
-
             <br><br>
             <img src="{{ url_for('static', filename='profile.png') }}" alt="Admin Profile" class="profile">
+            <br>
             <h1>Ayush Choudhary</h1>
             <h2>23f3000370</h2>
             <a href="{{ url_for('admin.view_users') }}"><button class="back-button">View Users</button></a>
+
         </div>
     </nav>
 
-    <div class="form-container">
-        <h1>Add Chapter</h1>
-        <form method="POST" action="{{ url_for('admin.add_chapter') }}">
-            <label for="chapter_name">Chapter Name:</label>
-            <input type="text" id="chapter_name" name="chapter_name" required>
-            <br><br>
-            <label for="no_of_questions">no of questions:</label>
-            <input type="number" id="subject_id" name="no_of_questions" required>
-            <br><br>
-            <label for="subject_id">Subject ID:</label>
-            <input type="number" id="subject_id" name="subject_id" required>
-            <br><br>
-            <button type="submit">Add Chapter</button>
-        </form>
+
+    <div class="container3">
+        <h1>All Registered Users</h1>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Username</th>
+                    <th>Qualification</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user[0] }}</td>
+                    <td>{{ user[1] }}</td>
+                    <td>{{ user[2] }}</td>
+                    <td>{{ user[3] }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4">No users found</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 </body>
 
